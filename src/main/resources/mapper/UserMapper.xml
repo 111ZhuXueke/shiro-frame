@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.rj.frame.shiro.service.mapper.UserMapper">
+    <select id="queryUserByName" resultType="org.rj.frame.shiro.service.domain.admin.UserDomain" parameterType="java.lang.String">
+        SELECT id,user_name,password FROM `user` WHERE user_name=#{userName}
+    </select>
+    <select id="queryRolesByName" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT r.name FROM role r,role_assign ur,`user` u WHERE r.id = ur.roleId AND u.id = ur.admin_id AND u.user_name=#{userName}
+    </select>
+</mapper>

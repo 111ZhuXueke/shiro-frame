@@ -9,9 +9,8 @@
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
-	
-    <!-- 扫描所有使用注解的类型，必须排除Controller，否则事务会失效 -->
-    <context:component-scan base-package="com.rui.web.common.service,com.rui.control">
+    <!-- 扫描所有使用注解的类型，必须排除Controller,否则事务会失效 -->
+    <context:component-scan base-package="org.rj.frame.shiro.service.service,org.rj.frame.shiro.web.controller">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>

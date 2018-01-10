@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -6,23 +6,21 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
-
     <!-- 事务 -->
-    <bean name = "transactionManager" class ="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name = "dataSource" ref = "dataSource"></property >
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property >
     </bean>
 
-    <bean id = "propertyConfigurer" class ="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name = "locations" >
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" >
             <list >
-                <value >classpath:dbconfig.properties</value>
+                <value>classpath:dbconfig.properties</value>
             </list>
         </property>
     </bean>
-
     <!--数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="${loan.jdbc.driverClassName}"/>
+    <property name="driverClassName" value="${loan.jdbc.driverClassName}"/>
         <property name="url" value="${loan.jdbc.url}"/>
         <property name="username" value="${loan.jdbc.username}"/>
         <property name="password" value="${loan.jdbc.password}"/>
@@ -54,13 +52,13 @@
         <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 扫描domain包 使用别名 -->
-        <property name="typeAliasesPackage" value="com.rui.control.domain"/>
+        <property name="typeAliasesPackage" value="org.rj.frame.shiro.service.domain"/>
         <!-- 扫描sql配置文件:mapper需要的xml文件 -->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
     <bean id="coreMapperScannerConfigurer" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.rui.control.mapper"/>
+        <property name="basePackage" value="org.rj.frame.shiro.service.mapper"/>
         <property name="properties">
             <value>
                 mappers=com.rui.web.common.persistence.Mapper
