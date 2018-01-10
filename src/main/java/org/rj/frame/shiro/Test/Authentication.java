@@ -14,16 +14,15 @@ import org.junit.Test;
  * @author : zhuxueke
  * @since : 2018-01-02 14:06
  **/
-public class AuthenticationDemo {
-    @Test
-    public void testRun(){
+public class Authentication {
+    public static Subject login(String path,String username,String password){
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
+        Factory<SecurityManager> factory = new IniSecurityManagerFactory(path);
         //获取 SecurityManager实例 并绑定给SecurityUtils
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try{
             subject.login(token);
             System.out.println("success");
@@ -31,8 +30,6 @@ public class AuthenticationDemo {
             //身份验证失败
             e.printStackTrace();
         }
-        Assert.assertEquals(true,subject.isAuthenticated());
-        //Assert.assertEquals(true, subject.isAuthenticated()); //断言用户已经登录
-        subject.logout();
+        return subject;
     }
 }
