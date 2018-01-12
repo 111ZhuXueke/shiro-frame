@@ -15,7 +15,7 @@ import java.util.Set;
  **/
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Service
-public class UserService extends BaseServiceImpl<UserDomain> implements IUserService {
+public class UserServiceImpl extends BaseServiceImpl<UserDomain> implements IUserService {
 
     @Autowired
     private UserMapper userMapper;

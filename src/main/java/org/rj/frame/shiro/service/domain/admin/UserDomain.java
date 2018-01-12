@@ -13,7 +13,7 @@ import java.util.Date;
 public class UserDomain {
     /*管理员id*/
     @Id
-    private Long id;
+    private Integer id;
 
     /*姓名*/
     private String realName;
@@ -60,53 +60,11 @@ public class UserDomain {
     /*最后修改人*/
     private Long updateAdmin;
 
-    /*0查看自己 1查看分公司 2查看部分公司 3查看全部*/
-    private Integer dataScope;
-
-    /*老系统id*/
-    private String oid;
-
-    /*所属公司 关联 t_jz_organization*/
-    private Long companyId;
-
-    /* 客服地址 0中广,1金融谷,2风控 */
-    private Integer uncallAdress;
-
-    /* 是否客服 1是 0否 */
-    private Integer isCustomer;
-
-    /* 客服号 */
-    private String customerNo;
-
-    /**
-     * 身份证
-     */
-    private String idCard;
-
-    /**
-     * 线上贷款id
-     */
-    private Long onlineId;
-
-
-    /**
-     * 数据来源权限判断 0 线下 1 线上 2 线上理财 3 加盟商 多权限中间，隔开
-     */
-    private String dataSource;
-
-    /**
-     *
-     */
-    private String dunType;
-
-    /*是否加盟商 0否 1是*/
-    private Integer isFranchisee;
-
-    public Long getId(){
+    public Integer getId(){
         return id;
     }
 
-    public void setId(Long id){
+    public void setId(Integer id){
         this.id = id;
     }
 
@@ -228,94 +186,6 @@ public class UserDomain {
 
     public void setUpdateAdmin(Long updateAdmin){
         this.updateAdmin = updateAdmin;
-    }
-
-    public Integer getDataScope(){
-        return dataScope;
-    }
-
-    public void setDataScope(Integer dataScope){
-        this.dataScope = dataScope;
-    }
-
-    public String getOid() {
-        return oid;
-    }
-
-    public void setOid(String oid) {
-        this.oid = oid;
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
-
-    public Integer getUncallAdress() {
-        return uncallAdress;
-    }
-
-    public void setUncallAdress(Integer uncallAdress) {
-        this.uncallAdress = uncallAdress;
-    }
-
-    public Integer getIsCustomer() {
-        return isCustomer;
-    }
-
-    public void setIsCustomer(Integer isCustomer) {
-        this.isCustomer = isCustomer;
-    }
-
-    public String getCustomerNo() {
-        return customerNo;
-    }
-
-    public void setCustomerNo(String customerNo) {
-        this.customerNo = customerNo;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    public Long getOnlineId() {
-        return onlineId;
-    }
-
-    public void setOnlineId(Long onlineId) {
-        this.onlineId = onlineId;
-    }
-
-    public String getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public String getDunType() {
-        return dunType;
-    }
-
-    public void setDunType(String dunType) {
-        this.dunType = dunType;
-    }
-
-    public Integer getIsFranchisee() {
-        return isFranchisee;
-    }
-
-    public void setIsFranchisee(Integer isFranchisee) {
-        this.isFranchisee = isFranchisee;
     }
 
 }

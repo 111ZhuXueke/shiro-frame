@@ -31,14 +31,14 @@
     </mvc:annotation-driven>
 
     <!-- 自定义拦截器 -->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/**" />-->
-            <!--&lt;!&ndash; 需排除拦截的地址 &ndash;&gt;-->
-            <!--&lt;!&ndash;  <mvc:exclude-mapping path="/userController/login"/>  &ndash;&gt;-->
-            <!--&lt;!&ndash;<bean id="pathInterceptor" class="com.rui.control.common.Interceptor.PathInterceptor"></bean>&ndash;&gt;-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <!-- 需排除拦截的地址 -->
+            <!--  <mvc:exclude-mapping path="/userController/login"/>  -->
+            <bean id="pathInterceptor" class="org.rj.frame.shiro.realm.PathInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
     
     <!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->
     <mvc:default-servlet-handler/>

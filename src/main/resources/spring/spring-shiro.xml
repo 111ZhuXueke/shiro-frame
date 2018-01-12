@@ -6,35 +6,66 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
-    <!-- 使用spring组件扫描@service -->
-    <context:component-scan base-package="org.rj.frame.shiro.service.service"/>
-    <!-- 自定义域realm -->
-    <bean id="custom_Realm" class="org.rj.frame.shiro.realm.CustomRealm"></bean>
-    <!-- 安全管理器 ref对象-->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="custom_Realm"/>
+
+    <!-- shiro realm -->
+    <bean id="accountRealm" class="org.rj.frame.shiro.realm.CustomRealm">
+        <!-- 配置AuthorizationInfo信息不用放redis缓存，直接放session即可 -->
+        <!--<property name="cachingEnabled" value="false" />-->
+        <!--<property name="authenticationCachingEnabled" value="false" />-->
     </bean>
-    <!-- shiro filter -->
+
+    <!-- 会话管理 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="3600000"></property>
+        <!--<property name="sessionDAO" ref="sessionDAO" />-->
+        <property name="deleteInvalidSessions" value="true" />
+
+        <!-- <property name="sessionFactory" ref="onlineSessionFactory"/> -->
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"></property>-->
+
+        <!--<property name="cacheManager" ref="redisCacheManager" />&lt;!&ndash; shiro使用redis缓存 &ndash;&gt;-->
+        <property name="sessionIdCookieEnabled" value="true" />
+        <!--<property name="sessionIdCookie" ref="sessionIdCookie" />-->
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="accountRealm" />
+        <property name="sessionManager" ref="sessionManager" />
+        <!--<property name="rememberMeManager" ref="rememberMeManager" />&lt;!&ndash; 客户端勾选记住 &ndash;&gt;-->
+    </bean>
+
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <!-- 安全管理器必须的 -->
-        <property name="securityManager" ref="securityManager"/>
-        <!-- 身份认证失败   认证提交的地址 -->
-        <property name="loginUrl" value="/index.jsp"/>
-        <!-- 权限认证失败    没有权限认证提交的地址 -->
-        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
-        <!-- Shiro连接约束配置,即过滤链的定义 -->
+        <property name="securityManager" ref="securityManager" />
+        <!--<property name="loginUrl" value="${shiro.login.url}" />-->
+        <!--<property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}"/>-->
+        <!--<property name="filters">-->
+            <!--<util:map>-->
+                <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
+                <!--<entry key="logout" value-ref="logoutFilter" />-->
+                <!--<entry key="sysUser" value-ref="sysUserFilter" />-->
+                <!--<entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter" />-->
+            <!--</util:map>-->
+        <!--</property>-->
         <property name="filterChainDefinitions">
+            <!-- 登录页面的所有请求，包括资源文件全部设定为匿名 修改用户信息功能需要验证登录，其他都使用user过滤器。即rememberMe功能。 -->
             <value>
-                <!-- 对静态资源设置匿名访问 -->
-                /login=anon
-                <!-- /**=authc=所有url都必须认证通过才可以访问 -->
-                /admin*=authc
+                /favicon.ico = anon
+                /static/** = anon
+                /chinapnr/** = anon
+                /jcaptcha* = anon
+                /logout = logout
+                /signIn = jCaptchaValidate,authc
+                /** = sysUser,user,perms,roles
             </value>
         </property>
     </bean>
-    <!-- Shiro生命周期处理器 -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
     </bean>
+
+    <!-- Shiro生命周期处理器 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>
