@@ -1,12 +1,15 @@
 package org.rj.frame.shiro.realm;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.rj.frame.shiro.service.domain.admin.UserDomain;
+import org.rj.frame.shiro.service.model.UserModel;
 import org.rj.frame.shiro.service.query.UserQuery;
 import org.rj.frame.shiro.service.service.IUserService;
 import org.slf4j.Logger;
@@ -27,46 +30,43 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private IUserService userService;
 
+    /**
+     * 用户对象
+     */
+    public static final String SESSION_USER_KEY = "gray";
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        UserQuery userQuery = new UserQuery();
-        userQuery.setUserName(token.getUsername());
-        UserDomain user = userService.getFirst(userQuery);
-//        UserDomain user = new UserDomain();
-//        user.setUserName("admin");
-//        user.setPassword("123456");
-        if (user == null) {
-            throw new AuthorizationException();
-        }
-        SimpleAuthenticationInfo info = null;
-        if (user.getUserName().equals(token.getUsername())) {
-            info = new SimpleAuthenticationInfo(user.getUserName(), user.getPassword(), getName());
-        }
-        return  info;
+        // 把token转换成User对象
+        UserQuery userLogin = tokenToUser((UsernamePasswordToken) authcToken);
+        UserDomain ui = userService.getOne(userLogin);
+        if(ui == null) return null; // 异常处理，找不到数据
+        // 设置session
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute(CustomRealm.SESSION_USER_KEY, ui);
+        //当前 Realm 的 name
+        String realmName = this.getName();
+        //登陆的主要信息: 可以是一个实体类的对象, 但该实体类的对象一定是根据 token 的 username 查询得到的.
+        Object principal = authcToken.getPrincipal();
+        return new SimpleAuthenticationInfo(principal, userLogin.getPassword(), realmName);
     }
 
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        // 根据用户配置用户与权限
-        if (principals == null) {
-            throw new AuthorizationException("PrincipalCollection method argument cannot be null.");
-        }
-        String name = (String) getAvailablePrincipal(principals);
-        List<String> roles = new ArrayList<String>();
-        UserDomain user = userService.queryUserByName(name);
-        // 简单默认一个用户与角色，实际项目应User user = userService.getByAccount(name);
-//        UserDomain user = new UserDomain();
-//        user.setUserName("admin");
-//        user.setPassword("123456");
-        if (user.getUserName().equals(name)) {
 
-        } else {
-            throw new AuthorizationException();
-        }
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
+        UserDomain user = (UserDomain) SecurityUtils.getSubject().getSession().getAttribute(CustomRealm.SESSION_USER_KEY);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        // 增加角色
-        info.addRoles(roles);
+        // 用户的权限
+//        info.addObjectPermissions();
+        // 用户的角色信息
+//        info.addRoles();
         return info;
+    }
+
+    private UserQuery tokenToUser(UsernamePasswordToken authcToken) {
+        UserQuery user = new UserQuery();
+        user.setUserName(authcToken.getUsername());
+        user.setPassword(String.valueOf(authcToken.getPassword()));
+        return user;
     }
 }

@@ -2,7 +2,9 @@ package org.rj.frame.shiro.web.controller.sign;
 
 import com.rui.web.common.enums.Constant;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
@@ -56,22 +58,16 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/signIn",method = RequestMethod.POST)
     @ResponseBody
-    String login(UserQuery query,Model model){
-        try{
-            UserDomain userDomain = userService.getOne(query);
-            if(userDomain != null){
-                model.addAttribute("user",userDomain);
-                UsernamePasswordToken token = new UsernamePasswordToken(userDomain.getUserName(), userDomain.getPassword());
-                Subject subject = SecurityUtils.getSubject();
-                subject.login(token);
-                logger.info("==========登录成功============");
-            }else{
-                return errorObjectStr("用户名或密码错误!");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+    String login(UserModel userModel,Model model){
+        String info = loginUser(userModel);
+        if (!"SUCC".equals(info)) {
+            model.addAttribute("failMsg", "用户不存在或密码错误！");
+            return "/jsp/fail";
+        }else{
+            model.addAttribute("successMsg", "登陆成功！");//返回到页面说夹带的参数
+            model.addAttribute("name", userModel.getUserName());
+            return "/jsp/success";//返回的页面
         }
-        return successObjectStr("登录中......");
     }
 
     @RequestMapping("/index")
@@ -79,5 +75,40 @@ public class UserController extends BaseController{
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/system/index");
         return modelAndView;
+    }
+
+
+    private String loginUser(UserModel user) {
+        if (isRelogin(user)) return "SUCC"; // 如果已经登陆，无需重新登录
+
+        return shiroLogin(user); // 调用shiro的登陆验证
+    }
+    private String shiroLogin(UserModel user) {
+        // 组装token，包括客户公司名称、简称、客户编号、用户名称；密码
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword().toCharArray(), null);
+        token.setRememberMe(true);
+
+        // shiro登陆验证
+        try {
+            SecurityUtils.getSubject().login(token);
+        } catch (UnknownAccountException ex) {
+            return "用户不存在或者密码错误！";
+        } catch (IncorrectCredentialsException ex) {
+            return "用户不存在或者密码错误！";
+        } catch (AuthenticationException ex) {
+            return ex.getMessage(); // 自定义报错信息
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "内部错误，请重试！";
+        }
+        return "SUCC";
+    }
+
+    private boolean isRelogin(UserModel user) {
+        Subject us = SecurityUtils.getSubject();
+        if (us.isAuthenticated()) {
+            return true; // 参数未改变，无需重新登录，默认为已经登录成功
+        }
+        return false; // 需要重新登陆
     }
 }
