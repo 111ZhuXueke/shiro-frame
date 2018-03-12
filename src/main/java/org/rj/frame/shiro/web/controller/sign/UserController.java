@@ -32,10 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author : zhuxueke
@@ -61,12 +59,9 @@ public class UserController extends BaseController{
     String login(UserModel userModel,Model model){
         String info = loginUser(userModel);
         if (!"SUCC".equals(info)) {
-            model.addAttribute("failMsg", "用户不存在或密码错误！");
-            return "/jsp/fail";
+            return errorObjectStr("用户不存在或密码错误！");
         }else{
-            model.addAttribute("successMsg", "登陆成功！");//返回到页面说夹带的参数
-            model.addAttribute("name", userModel.getUserName());
-            return "/jsp/success";//返回的页面
+            return successObjectStr("登陆成功！");//返回的页面
         }
     }
 
@@ -111,4 +106,5 @@ public class UserController extends BaseController{
         }
         return false; // 需要重新登陆
     }
+
 }

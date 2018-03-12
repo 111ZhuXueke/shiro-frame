@@ -1,10 +1,8 @@
 package org.rj.frame.shiro.web.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 拉姆达
@@ -29,5 +27,12 @@ public class Lambda {
         list.add(sim.parse(date2));
         Date date = list.stream().min(Comparator.comparing(num -> num)).get();
         System.out.println(sim.format(date));
+
+        List<Integer> lists = Arrays.asList(1,8,5,6,3);
+        lists.sort((Integer x, Integer y) -> x < y? -1 : 0);
+        for (Integer item:
+             lists) {
+            System.out.println(item);
+        }
     }
 }
