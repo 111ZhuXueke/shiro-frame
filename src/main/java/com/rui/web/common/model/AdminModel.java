@@ -1,6 +1,7 @@
 package com.rui.web.common.model;
 
 /**
+ * 管理员对象
  * @author : zhuxueke
  * @since : 2017-12-13 14:37
  **/

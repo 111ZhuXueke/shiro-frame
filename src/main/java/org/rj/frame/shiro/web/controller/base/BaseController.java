@@ -3,8 +3,10 @@ package org.rj.frame.shiro.web.controller.base;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.rui.web.common.model.AdminModel;
+import org.rj.frame.shiro.service.domain.admin.UserDomain;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,18 +16,14 @@ import java.util.Map;
  **/
 public class BaseController implements java.io.Serializable{
 
+    @Autowired
+    private AdminContext adminContext;
     /**
      * success
      * @author : zhuxueke
      * @since : 2018/1/12 11:21
      */
     protected String successObjectStr(String message) {
-//        if (object == null) {
-//            ExceptionUtils.throwBaseException("参数异常");
-//        }
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("ok", 200);
-//        map.put("message", message);
         JSONObject json = new JSONObject();
         json.put("ok",200);
         json.put("message",message);
@@ -38,9 +36,9 @@ public class BaseController implements java.io.Serializable{
      * @since : 2018/1/12 11:21
      */
     protected String errorObjectStr(String message) {
-//        if (object == null) {
-//            ExceptionUtils.throwBaseException("参数异常");
-//        }
+        if (message == null) {
+            new RuntimeException("登录信息异常");
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("error", 300);
         map.put("message", message);
@@ -49,5 +47,18 @@ public class BaseController implements java.io.Serializable{
 
     protected String toJSONFormatString(Object object) {
         return JSON.toJSONString(object, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteDateUseDateFormat);
+    }
+
+    /**
+     * 获得当前登录用户
+     * @author : zhuxueke
+     * @since : 2018/3/13 10:52
+     */
+    protected AdminModel<UserDomain> getAdmin() {
+        AdminModel<UserDomain> adminModel = adminContext.getCurrent().getAdminModel();
+        if (adminModel == null) {
+            new RuntimeException("登录信息异常");
+        }
+        return adminModel;
     }
 }

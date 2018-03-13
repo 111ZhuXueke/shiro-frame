@@ -1,5 +1,5 @@
 <jsp:include page="../include/taglib.jsp" flush="true"/>
-        <title></title>
+        <title>权限管理页面</title>
     </head>
 <body>
 <h2>shiro</h2>

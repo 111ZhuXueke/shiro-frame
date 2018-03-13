@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 用户
  * @author : zhuxueke
  * @since : 2018-01-11 16:10
  **/
@@ -64,14 +65,6 @@ public class UserController extends BaseController{
             return successObjectStr("登陆成功！");//返回的页面
         }
     }
-
-    @RequestMapping("/index")
-    ModelAndView index(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/system/index");
-        return modelAndView;
-    }
-
 
     private String loginUser(UserModel user) {
         if (isRelogin(user)) return "SUCC"; // 如果已经登陆，无需重新登录

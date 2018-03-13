@@ -10,7 +10,7 @@ import java.util.Date;
  * @since : 2018-01-10 16:55
  **/
 @Table(name = "role_assign")
-public class RoleAssign {
+public class RoleAssignDomain {
     /*角色分配id*/
     @Id
     private Long id;
