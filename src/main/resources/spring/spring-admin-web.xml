@@ -17,6 +17,7 @@
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
     <!-- 开启SpringMVC注解模式 -->
+    <!--<context:component-scan base-package="com.rui.web.common.security"/>-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
@@ -36,7 +37,7 @@
             <mvc:mapping path="/**" />
             <!-- 需排除拦截的地址 -->
             <!--  <mvc:exclude-mapping path="/userController/login"/>  -->
-            <bean id="pathInterceptor" class="org.rj.frame.shiro.realm.PathInterceptor"></bean>
+            <bean id="pathInterceptor" class="org.rj.frame.shiro.web.realm.PathInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
     

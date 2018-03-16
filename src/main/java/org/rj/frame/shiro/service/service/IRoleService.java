@@ -11,5 +11,10 @@ import java.util.Set;
  * @since : 2018-01-10 15:49
  **/
 public interface IRoleService extends IBaseService<RoleDomain> {
-
+    /**
+     * 获取权限表详细信息
+     * @author : zhuxueke
+     * @since : 2018/3/15 9:09
+     */
+    Set<RoleDomain> getRoles(Set<Long> roleIds);
 }

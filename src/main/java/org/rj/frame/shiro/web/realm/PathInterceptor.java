@@ -1,4 +1,4 @@
-package org.rj.frame.shiro.realm;
+package org.rj.frame.shiro.web.realm;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

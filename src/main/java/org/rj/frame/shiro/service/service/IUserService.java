@@ -10,6 +10,6 @@ import java.util.Set;
  * @since : 2018-01-10 15:49
  **/
 public interface IUserService extends IBaseService<UserDomain> {
-    public UserDomain queryUserByName(String userName);
-    public Set<String> queryRolesByName(String userName);
+     UserDomain queryUserByName(String userName);
+     Set<String> queryRolesByName(String userName);
 }

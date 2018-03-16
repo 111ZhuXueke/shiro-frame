@@ -5,9 +5,6 @@
   <artifactId>shiro-frame</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>shiro-generator</module>
-    </modules>
     <name>shiro-frame Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
@@ -165,6 +162,21 @@
       <!-- druid end -->
 
       <!-- commons系列组件 -->
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>18.0</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+          <version>2.2.2</version>
+      </dependency>
+      <dependency>
+          <groupId>net.sf.dozer</groupId>
+          <artifactId>dozer</artifactId>
+          <version>5.5.1</version>
+      </dependency>
       <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>

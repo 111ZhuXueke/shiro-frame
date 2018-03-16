@@ -2,13 +2,13 @@ package org.rj.frame.shiro.service.service.impl;
 
 import com.rui.web.common.service.impl.BaseServiceImpl;
 import org.rj.frame.shiro.service.domain.admin.PermissionDomain;
-import org.rj.frame.shiro.service.domain.admin.UserDomain;
-import org.rj.frame.shiro.service.mapper.UserMapper;
+import org.rj.frame.shiro.service.mapper.IPermissionMapper;
+import org.rj.frame.shiro.service.query.PermissionQuery;
 import org.rj.frame.shiro.service.service.IPermissionService;
-import org.rj.frame.shiro.service.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,5 +18,16 @@ import java.util.Set;
 @SuppressWarnings("SpringJavaAutowiringInspection")
 @Service
 public class PermissionServiceImpl extends BaseServiceImpl<PermissionDomain> implements IPermissionService {
+    @Autowired
+    private IPermissionMapper permissionMapper;
 
+    @Override
+    public Set<PermissionDomain> getPermissionsById(Set<Long> longSet) {
+        Set<PermissionDomain> sets = new HashSet<>();
+        for (Long item:longSet) {
+            PermissionDomain domain = super.getOne(new PermissionQuery(item));
+            if (domain != null) sets.add(domain);
+        }
+        return sets;
+    }
 }

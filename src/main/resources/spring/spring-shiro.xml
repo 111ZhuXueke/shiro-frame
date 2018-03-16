@@ -1,71 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:c="http://www.springframework.org/schema/c"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <!-- shiro realm -->
-    <bean id="accountRealm" class="org.rj.frame.shiro.realm.CustomRealm">
-        <!-- 配置AuthorizationInfo信息不用放redis缓存，直接放session即可 -->
-        <!--<property name="cachingEnabled" value="false" />-->
-        <!--<property name="authenticationCachingEnabled" value="false" />-->
-    </bean>
-
-    <!-- 会话管理 -->
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="globalSessionTimeout" value="3600000"></property>
-        <!--<property name="sessionDAO" ref="sessionDAO" />-->
-        <property name="deleteInvalidSessions" value="true" />
-
-        <!-- <property name="sessionFactory" ref="onlineSessionFactory"/> -->
-        <property name="sessionValidationSchedulerEnabled" value="true" />
-        <!--<property name="sessionValidationScheduler" ref="sessionValidationScheduler"></property>-->
-
-        <!--<property name="cacheManager" ref="redisCacheManager" />&lt;!&ndash; shiro使用redis缓存 &ndash;&gt;-->
-        <property name="sessionIdCookieEnabled" value="true" />
-        <!--<property name="sessionIdCookie" ref="sessionIdCookie" />-->
-    </bean>
-
-    <!-- 安全管理器 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="accountRealm" />
-        <property name="sessionManager" ref="sessionManager" />
-        <!--<property name="rememberMeManager" ref="rememberMeManager" />&lt;!&ndash; 客户端勾选记住 &ndash;&gt;-->
-    </bean>
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+  		http://www.springframework.org/schema/aop
+  		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager" />
-        <!--<property name="loginUrl" value="${shiro.login.url}" />-->
-        <!--<property name="unauthorizedUrl" value="${shiro.unauthorizedUrl}"/>-->
-        <!--<property name="filters">-->
-            <!--<util:map>-->
-                <!--<entry key="authc" value-ref="formAuthenticationFilter"/>-->
-                <!--<entry key="logout" value-ref="logoutFilter" />-->
-                <!--<entry key="sysUser" value-ref="sysUserFilter" />-->
-                <!--<entry key="jCaptchaValidate" value-ref="jCaptchaValidateFilter" />-->
-            <!--</util:map>-->
-        <!--</property>-->
+        <!-- 装配 securityManager -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 配置登陆页面 -->
+        <property name="loginUrl" value="/signIn"/>
+        <!-- 登陆成功后的一面 -->
+        <property name="successUrl" value="/jsp/success.jsp"/>
+        <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"/>
+        <!-- 具体配置需要拦截哪些 URL, 以及访问对应的 URL 时使用 Shiro 的什么 Filter 进行拦截.  -->
         <property name="filterChainDefinitions">
-            <!-- 登录页面的所有请求，包括资源文件全部设定为匿名 修改用户信息功能需要验证登录，其他都使用user过滤器。即rememberMe功能。 -->
             <value>
-                /favicon.ico = anon
-                /static/** = anon
-                /chinapnr/** = anon
-                /jcaptcha* = anon
+                /index.jsp=anon
+                /jsp/success.jsp=anon
+                /jsp/fail.jsp=anon
+                /jsp/user.jsp = roles[user]
+                /jsp/admin.jsp = roles[admin]
                 /logout = logout
-                /signIn = jCaptchaValidate,authc
-                /** = sysUser,user,perms,roles
             </value>
         </property>
     </bean>
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
-        <property name="arguments" ref="securityManager"/>
+
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+    <!--&lt;!&ndash; 指定 ehcache 的配置文件 &ndash;&gt;-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:spring-shiro.xml"/>-->
+    <!--</bean>-->
+
+    <bean id="customRealm" class="org.rj.frame.shiro.web.realm.CustomRealm"></bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+        <property name="realm" ref="customRealm"/>
+        <property name="sessionMode" value="native">
+        </property>
     </bean>
 
-    <!-- Shiro生命周期处理器 -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 </beans>

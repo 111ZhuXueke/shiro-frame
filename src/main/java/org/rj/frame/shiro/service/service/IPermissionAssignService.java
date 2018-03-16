@@ -11,5 +11,10 @@ import java.util.Set;
  * @since : 2018-01-10 15:49
  **/
 public interface IPermissionAssignService extends IBaseService<PermissionAssignDomain> {
-
+    /**
+     * 根据权限获取资源编号
+     * @author : zhuxueke
+     * @since : 2018/3/15 9:36
+     */
+    public Set<Long> getPermissionAssign(Set<Long> roleIds);
 }

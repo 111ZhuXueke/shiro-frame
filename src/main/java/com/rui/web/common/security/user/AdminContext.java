@@ -1,12 +1,14 @@
-package org.rj.frame.shiro.web.controller.base;
+package com.rui.web.common.security.user;
 
 import com.rui.web.common.enums.Constant;
 import com.rui.web.common.model.AdminModel;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.rj.frame.shiro.service.domain.admin.ModuleDomain;
 import org.springframework.stereotype.Component;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,6 +32,17 @@ public class AdminContext implements Serializable {
 
     // 权限资源
     private Set<String> permissions;
+
+    /*菜单*/
+    private List<ModuleDomain> moduleDomains;
+
+    public List<ModuleDomain> getModuleDomains() {
+        return moduleDomains;
+    }
+
+    public void setModuleDomains(List<ModuleDomain> moduleDomains) {
+        this.moduleDomains = moduleDomains;
+    }
 
     public AdminModel getAdminModel() {
         return adminModel;

@@ -75,7 +75,6 @@ public class UserController extends BaseController{
         // 组装token，包括客户公司名称、简称、客户编号、用户名称；密码
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword().toCharArray(), null);
         token.setRememberMe(true);
-
         // shiro登陆验证
         try {
             SecurityUtils.getSubject().login(token);

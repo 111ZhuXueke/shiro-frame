@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.rui.web.common.model.AdminModel;
+import com.rui.web.common.security.user.AdminContext;
 import org.rj.frame.shiro.service.domain.admin.UserDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 

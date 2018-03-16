@@ -11,5 +11,10 @@ import java.util.Set;
  * @since : 2018-01-10 15:49
  **/
 public interface IPermissionService extends IBaseService<PermissionDomain> {
-
+    /**
+     * 获取资源对象
+     * @author : zhuxueke
+     * @since : 2018/3/15 9:43
+     */
+    Set<PermissionDomain> getPermissionsById(Set<Long> longSet);
 }

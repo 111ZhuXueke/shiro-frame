@@ -11,11 +11,27 @@ import tk.mybatis.mapper.entity.Example;
  **/
 public class RoleAssignQuery extends Query {
 
+    public RoleAssignQuery(Integer id){
+        this.id = id;
+    }
+
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public QueryCriteria toCriteria() {
         QueryCriteria queryCriteria = new QueryCriteria(UserDomain.class);
         Example.Criteria criteria = queryCriteria.createCriteria();
-
+        if(valid(id)){
+            criteria.andEqualTo("id",id);
+        }
         return queryCriteria;
     }
 }
