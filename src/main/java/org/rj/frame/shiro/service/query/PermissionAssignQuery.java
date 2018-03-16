@@ -2,6 +2,7 @@ package org.rj.frame.shiro.service.query;
 
 import com.rui.web.common.persistence.criteria.QueryCriteria;
 import com.rui.web.common.query.Query;
+import org.rj.frame.shiro.service.domain.admin.ModuleDomain;
 import org.rj.frame.shiro.service.domain.admin.UserDomain;
 import tk.mybatis.mapper.entity.Example;
 
@@ -15,7 +16,7 @@ public class PermissionAssignQuery extends Query {
     private Long permissionId;
     @Override
     public QueryCriteria toCriteria() {
-        QueryCriteria queryCriteria = new QueryCriteria(UserDomain.class);
+        QueryCriteria queryCriteria = new QueryCriteria(ModuleDomain.class);
         Example.Criteria criteria = queryCriteria.createCriteria();
         if(valid(roleId)){
             criteria.andEqualTo("roldId",roleId);

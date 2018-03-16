@@ -16,8 +16,11 @@
     	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
+    <!-- 构造器注入 adminContext -->
+    <bean id="defaultTags" class="org.rj.frame.shiro.web.tag.DefaultTags">
+        <constructor-arg name="context" ref="adminContext"></constructor-arg>
+    </bean>
     <!-- 开启SpringMVC注解模式 -->
-    <!--<context:component-scan base-package="com.rui.web.common.security"/>-->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->

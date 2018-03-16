@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
  **/
 @Controller
 @Scope("prototype")
-@RequestMapping("/")
 public class UserController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -99,4 +98,15 @@ public class UserController extends BaseController{
         return false; // 需要重新登陆
     }
 
+    /**
+     * 进入主页面
+     * @author : zhuxueke
+     * @since : 2018/3/16 13:15
+     */
+    @RequestMapping(value = "/index")
+    public ModelAndView toIndex(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("signIn/index");
+        return modelAndView;
+    }
 }

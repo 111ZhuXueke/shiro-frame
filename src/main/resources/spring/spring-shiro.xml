@@ -15,39 +15,32 @@
   		http://www.springframework.org/schema/aop
   		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!-- shiro realm -->
+    <bean id="customRealm" class="org.rj.frame.shiro.web.realm.CustomRealm">
+        <property name="cachingEnabled" value="false" />
+        <property name="authenticationCachingEnabled" value="false" />
+    </bean>
+
+
+
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!-- 装配 securityManager -->
         <property name="securityManager" ref="securityManager"/>
-        <!-- 配置登陆页面 -->
-        <property name="loginUrl" value="/signIn"/>
-        <!-- 登陆成功后的一面 -->
-        <property name="successUrl" value="/jsp/success.jsp"/>
-        <property name="unauthorizedUrl" value="/jsp/unauthorized.jsp"/>
         <!-- 具体配置需要拦截哪些 URL, 以及访问对应的 URL 时使用 Shiro 的什么 Filter 进行拦截.  -->
         <property name="filterChainDefinitions">
             <value>
                 /index.jsp=anon
-                /jsp/success.jsp=anon
-                /jsp/fail.jsp=anon
-                /jsp/user.jsp = roles[user]
-                /jsp/admin.jsp = roles[admin]
                 /logout = logout
             </value>
         </property>
     </bean>
 
-    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
-    <!--&lt;!&ndash; 指定 ehcache 的配置文件 &ndash;&gt;-->
-        <!--<property name="cacheManagerConfigFile" value="classpath:spring-shiro.xml"/>-->
-    <!--</bean>-->
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
 
-    <bean id="customRealm" class="org.rj.frame.shiro.web.realm.CustomRealm"></bean>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <!--<property name="cacheManager" ref="cacheManager"/>-->
+        <property name="cacheManager" ref="cacheManager"/>
         <property name="realm" ref="customRealm"/>
-        <property name="sessionMode" value="native">
-        </property>
     </bean>
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>

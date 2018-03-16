@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Scope("prototype")
 @Controller
 @RequestMapping(value = "system/permissions")
-public class Permissions {
+public class PermissionsController {
 
 }

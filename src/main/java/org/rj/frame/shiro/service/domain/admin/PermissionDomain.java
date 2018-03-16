@@ -27,9 +27,6 @@ public class PermissionDomain {
     /*资源父ID*/
     private Long parentId;
 
-    /*资源父编号列表*/
-    private String parentIds;
-
     /*权限字符串*/
     private String permission;
 
@@ -83,14 +80,6 @@ public class PermissionDomain {
 
     public void setParentId(Long parentId){
         this.parentId = parentId;
-    }
-
-    public String getParentIds(){
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds){
-        this.parentIds = parentIds;
     }
 
     public String getPermission(){

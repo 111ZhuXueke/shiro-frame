@@ -99,12 +99,17 @@ public class CustomRealm extends AuthorizingRealm {
         Set<Long> set = new HashSet<Long>();
         for(PermissionDomain item:permissionDomains){
             //筛选出所有模块是click 的对象
-            if(item != null && item.getType().equals(PermissionType.CLICK)) set.add(item.getModuleId());
+            if(item != null && item.getType().equals(PermissionType.CLICK.getType())) set.add(item.getModuleId());
         }
         List<Long> idList = new ArrayList<Long>(set);
         List<ModuleDomain> moduleDomains = null;
         if(idList.size() > 0) {
-            moduleDomains = moduleService.getList(new ModuleQuery(idList, false, "sorting"));
+            try{
+                moduleDomains = moduleService.getList(new ModuleQuery(idList, false, "sorting"));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         modulePermission(moduleDomains);
         adminContext.setModuleDomains(moduleDomains);
@@ -149,6 +154,7 @@ public class CustomRealm extends AuthorizingRealm {
      * @since : 2018/3/15 14:24
      */
     private void modulePermission(List<ModuleDomain> moduleDomains){
+        if(moduleDomains == null) return;
         List<ModuleDomain> lists = new ArrayList<>();
         ModuleDomain domain = moduleDomains.get(0);
         lists.add(moduleDomains.get(0));

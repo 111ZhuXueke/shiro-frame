@@ -25,8 +25,13 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleDomain> implements IRol
     public Set<RoleDomain> getRoles(Set<Long> roleIds) {
         Set<RoleDomain> sets = new HashSet<>();
         for (Long item:roleIds) {
-            RoleDomain roleDomain = super.getOne(new RoleQuery(item,null, RoleAvailable.OPEN.getCode()));
-            if (roleDomain != null) sets.add(roleDomain);
+            try{
+                RoleDomain roleDomain = super.getOne(new RoleQuery(item,null, RoleAvailable.OPEN.getCode()));
+                if (roleDomain != null) sets.add(roleDomain);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         return sets;
     }
