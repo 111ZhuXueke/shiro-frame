@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50535
 File Encoding         : 65001
 
-Date: 2018-03-14 16:15:50
+Date: 2018-03-16 17:31:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,16 +20,16 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `module`;
 CREATE TABLE `module` (
-  `id` varchar(36) COLLATE utf8_bin NOT NULL COMMENT '主键',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '模块名称',
   `description` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '菜单模块描述',
-  `label` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '标签',
+  `lable` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '标签',
   `status` tinyint(4) DEFAULT NULL COMMENT '状态 1:开启 0:关闭',
   `sorting` tinyint(20) DEFAULT NULL COMMENT '排序字段',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统模块表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统模块表';
 
 -- ----------------------------
 -- Records of module
@@ -46,7 +46,6 @@ CREATE TABLE `permission` (
   `type` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限类型',
   `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源路径',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '资源父ID',
-  `parent_ids` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源父编号列表',
   `permission` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '权限字符串',
   `available` tinyint(1) DEFAULT '0' COMMENT '是否可用 0:true 1:false',
   `module_id` bigint(20) DEFAULT NULL COMMENT '模块ID',
@@ -54,27 +53,29 @@ CREATE TABLE `permission` (
   `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `IND_security_permission_module_id` (`module_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统权限信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统权限信息表';
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
+INSERT INTO `permission` VALUES ('1', '权限管理', 'click', null, null, 'system:permissions:manager', '0', '1', '2018-03-16 13:09:57', '2018-03-16 13:09:54');
 
 -- ----------------------------
 -- Table structure for permission_assign
 -- ----------------------------
 DROP TABLE IF EXISTS `permission_assign`;
 CREATE TABLE `permission_assign` (
-  `id` tinyint(36) NOT NULL COMMENT '主键 权限分配id',
+  `id` tinyint(36) NOT NULL AUTO_INCREMENT COMMENT '主键 权限分配id',
   `permission_id` tinyint(36) DEFAULT NULL,
   `role_id` tinyint(36) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统权限 角色 关联授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统权限 角色 关联授权表';
 
 -- ----------------------------
 -- Records of permission_assign
 -- ----------------------------
+INSERT INTO `permission_assign` VALUES ('1', '1', '1', '2018-03-16 13:10:12');
 
 -- ----------------------------
 -- Table structure for role
@@ -84,7 +85,7 @@ CREATE TABLE `role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `name` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色名称',
   `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '角色描述',
-  `available` tinyint(1) DEFAULT '0' COMMENT '是否可用 0:true 1:false',
+  `available` int(1) DEFAULT '0' COMMENT '是否可用 0:true 1:false',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)

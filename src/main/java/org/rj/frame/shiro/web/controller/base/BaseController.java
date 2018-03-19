@@ -9,7 +9,9 @@ import org.rj.frame.shiro.service.domain.admin.UserDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author : zhuxueke
@@ -50,6 +52,14 @@ public class BaseController implements java.io.Serializable{
         return JSON.toJSONString(object, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteDateUseDateFormat);
     }
 
+    /**
+     * 获取用户的所有权限
+     * @author : zhuxueke
+     * @since : 2018/3/19 12:45
+     */
+    protected Set<String> getPermissions(){
+        return adminContext.getPermissions();
+    }
     /**
      * 获得当前登录用户
      * @author : zhuxueke
