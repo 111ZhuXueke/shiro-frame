@@ -10,4 +10,11 @@ import org.rj.frame.shiro.service.domain.admin.PermissionDomain;
  **/
 public interface IPermissionMapper extends Mapper<PermissionDomain> {
 
+    /**
+     * mapper 文件需要写 sql
+     * @author : zhuxueke
+     * @since : 2018/3/21 16:15
+     */
+    @Override
+    Long getMaxId();
 }

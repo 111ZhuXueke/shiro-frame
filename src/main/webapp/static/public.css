@@ -1,0 +1,4 @@
+.btn{
+    color:#428bca; background:#FFFFFF;border: 2px solid #428bca;border-radius: 3px;padding: 3px; text-decoration: none;
+}
+.btn:active,.btn:hover, .btn:focus{color:#FFF; background-color:#428bca;text-decoration: none;cursor: pointer;}

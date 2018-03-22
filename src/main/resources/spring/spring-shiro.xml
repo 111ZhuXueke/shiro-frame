@@ -21,8 +21,6 @@
         <property name="authenticationCachingEnabled" value="false" />
     </bean>
 
-
-
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!-- 装配 securityManager -->
         <property name="securityManager" ref="securityManager"/>

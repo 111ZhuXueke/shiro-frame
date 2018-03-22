@@ -1,5 +1,6 @@
 package org.rj.frame.shiro.web.tag;
 
+import com.rui.web.common.enums.PermissionType;
 import com.rui.web.common.model.AdminModel;
 import com.rui.web.common.security.user.AdminContext;
 import org.rj.frame.shiro.service.domain.admin.ModuleDomain;
@@ -43,5 +44,19 @@ public class DefaultTags {
         if(adminContext1 != null)
             moduleModels = adminContext1.getModuleDomains();
         return moduleModels;
+    }
+
+    /**
+     * 获取权限级别名称
+     * @author : zhuxueke
+     * @since : 2018/3/21 14:42
+     */
+    public static List<String> getEnums(){
+        List<String> enums = new ArrayList<>();
+        PermissionType[] strs = PermissionType.values();
+        for (PermissionType item:strs) {
+            enums.add(item.getType());
+        }
+        return enums;
     }
 }

@@ -35,4 +35,9 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleDomain> implements IRol
         }
         return sets;
     }
+
+    @Override
+    public Long getMaxId() {
+        return null;
+    }
 }

@@ -121,4 +121,9 @@ public interface IBaseService<T> {
      * @param domain 领域对象
      */
     void updateAll(T domain);
+
+    /**
+     * 获取最大编号Id
+     */
+    Long getMaxId();
 }

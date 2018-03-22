@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body>
+<body on>
     <form>
         <input type="text" id="userName" name="userName"><br/>
         <input type="text" id="passwprd" name="password"><br/>
@@ -35,10 +35,13 @@
                 $(".msg").text(obj.message);
                 if(obj.ok != null){
                     window.location.href="${basePath}index";
+
                 }
             });
         });
     })
+
+
 </script>
 </body>
 </html>

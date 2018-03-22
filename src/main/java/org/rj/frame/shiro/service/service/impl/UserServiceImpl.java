@@ -29,4 +29,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserDomain> implements IUse
     public Set<String> queryRolesByName(String userName) {
         return userMapper.queryRolesByName(userName);
     }
+
+    @Override
+    public Long getMaxId() {
+        return null;
+    }
 }

@@ -43,6 +43,7 @@ public class ModuleController extends BaseController{
         PermissionQuery query = new PermissionQuery();
         query.setModuleId(moduleId);
         query.setType(PermissionType.CLICK.getType());
+        query.setAvailable(0);
         List<PermissionDomain> lists = permissionService.getList(query);
         Set<String> permissions = this.getPermissions();
         List<PermissionDomain> arrayList = new ArrayList<>();

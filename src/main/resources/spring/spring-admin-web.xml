@@ -20,6 +20,14 @@
     <bean id="defaultTags" class="org.rj.frame.shiro.web.tag.DefaultTags">
         <constructor-arg name="context" ref="adminContext"></constructor-arg>
     </bean>
+    <!-- 定义错误异常转发 -->
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key="org.apache.shiro.UnavailableSecurityManagerException">redirect:/signIn</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
     <!-- 开启SpringMVC注解模式 -->
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">

@@ -36,4 +36,9 @@ public class PermissionAssignServiceImpl extends BaseServiceImpl<PermissionAssig
         }
         return sets;
     }
+
+    @Override
+    public Long getMaxId() {
+        return null;
+    }
 }

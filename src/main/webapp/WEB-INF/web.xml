@@ -10,6 +10,16 @@
     <session-timeout>60</session-timeout>
   </session-config>
 
+  <!-- 过滤用户登录 -->
+  <filter>
+    <filter-name>adminFilter</filter-name>
+    <filter-class>org.rj.frame.shiro.web.realm.AdminFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>adminFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!-- 设置servlet编码开始 -->
   <filter>
     <filter-name>encodingFilter</filter-name>
@@ -92,4 +102,8 @@
         <filter-name>shiroFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+  <error-page>
+    <error-code>302</error-code>
+    <location>/WEB-INF/view/signIn/login.jsp</location>
+  </error-page>
 </web-app>

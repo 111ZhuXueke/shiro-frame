@@ -22,6 +22,11 @@ public class PermissionQuery extends Query {
     private Long parentId;
 
     private String name;
+
+    private String url;
+    /*是否可用 0:true 1:false*/
+    private Integer available;
+
     public PermissionQuery(){
 
     }
@@ -36,11 +41,18 @@ public class PermissionQuery extends Query {
             criteria.andEqualTo("parentId",parentId);
         }
         if(valid(name)){
-            criteria.andLike("name",name);
+            criteria.andLike("name","%" + name + "%");
         }
         if(valid(type)){
-            criteria.andLike("type",type);
+            criteria.andEqualTo("type",type);
         }
+        if (valid(available)){
+            criteria.andEqualTo("available",available);
+        }
+        if (valid(url)){
+            criteria.andEqualTo("url",url);
+        }
+
         return queryCriteria;
     }
 
@@ -82,5 +94,21 @@ public class PermissionQuery extends Query {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Integer available) {
+        this.available = available;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

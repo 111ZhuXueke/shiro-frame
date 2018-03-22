@@ -36,4 +36,9 @@ public class RoleAssignServiceImpl extends BaseServiceImpl<RoleAssignDomain> imp
         }
         return stringSet;
     }
+
+    @Override
+    public Long getMaxId() {
+        return null;
+    }
 }

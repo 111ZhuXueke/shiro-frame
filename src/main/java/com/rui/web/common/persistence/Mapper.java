@@ -8,5 +8,10 @@ import com.rui.web.common.mybatis.CommonMapper;
  * @since : 2017-12-08 9:15
  **/
 public interface Mapper<T> extends CommonMapper<T> {
-
+    /**
+     * 获取最大Id
+     * @author : zhuxueke
+     * @since : 2018/3/21 16:14
+     */
+    Long getMaxId();
 }

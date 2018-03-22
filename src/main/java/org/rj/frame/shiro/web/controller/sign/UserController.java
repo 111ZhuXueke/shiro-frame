@@ -1,6 +1,7 @@
 package org.rj.frame.shiro.web.controller.sign;
 
 import com.rui.web.common.enums.Constant;
+import com.rui.web.common.security.user.AdminContext;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -46,6 +48,8 @@ public class UserController extends BaseController{
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
+    private AdminContext adminContext;
+    @Autowired
     private IUserService userService;
 
     @RequestMapping(value = "/signIn",method = RequestMethod.GET)
@@ -56,11 +60,12 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/signIn",method = RequestMethod.POST)
     @ResponseBody
-    String login(UserModel userModel,Model model){
+    String login(HttpSession session,UserModel userModel, Model model){
         String info = loginUser(userModel);
         if (!"SUCC".equals(info)) {
             return errorObjectStr("用户不存在或密码错误！");
         }else{
+            session.setAttribute("status",1);
             return successObjectStr("登陆成功！");//返回的页面
         }
     }
@@ -108,5 +113,18 @@ public class UserController extends BaseController{
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("signIn/index");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    @ResponseBody
+    public String logout(){
+        Subject subject= SecurityUtils.getSubject();
+        try {
+            subject.logout();
+            adminContext = null;
+        }catch (Exception e){
+            return errorObjectStr("退出失败!");
+        }
+        return successObjectStr("成功退出！");
     }
 }

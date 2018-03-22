@@ -21,4 +21,13 @@
 		<function-class>org.rj.frame.shiro.web.tag.DefaultTags</function-class>
 		<function-signature>java.util.List getModules()</function-signature>
 	</function>
+
+	<function>
+		<description>根据用户获取菜单模块</description>
+		<name>enums</name>
+		<function-class>org.rj.frame.shiro.web.tag.DefaultTags</function-class>
+		<function-signature>java.util.List getEnums()</function-signature>
+	</function>
+
+
 </taglib>

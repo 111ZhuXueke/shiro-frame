@@ -16,4 +16,9 @@ import org.springframework.stereotype.Service;
 public class ModuleServiceImpl extends BaseServiceImpl<ModuleDomain> implements IModuleService {
     @Autowired
     private IModuleMapper moduleMapper;
+
+    @Override
+    public Long getMaxId() {
+        return null;
+    }
 }

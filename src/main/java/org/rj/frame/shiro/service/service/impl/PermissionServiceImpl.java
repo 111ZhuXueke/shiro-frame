@@ -32,4 +32,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDomain> imp
         }
         return sets;
     }
+
+    @Override
+    public Long getMaxId() {
+        return permissionMapper.getMaxId();
+    }
 }
