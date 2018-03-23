@@ -112,9 +112,14 @@
         }
         /* 修改权限 */
         function update(){
-            $(".childWin").show();
-            $(".childWin iframe").attr("src","${basePath}permission/update?id="+permaryKey);
-            $(".childWin iframe").load();
+            if(permaryKey != '' || permaryKey != null){
+                $(".childWin").show();
+                $(".childWin iframe").attr("src","${basePath}permission/update?id="+permaryKey);
+                $(".childWin iframe").load();
+            }else {
+                alert("请选择编号！");
+            }
+
         }
 
         function setPermaryKey(thi){

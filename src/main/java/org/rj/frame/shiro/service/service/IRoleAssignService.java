@@ -12,7 +12,7 @@ import java.util.Set;
  **/
 public interface IRoleAssignService extends IBaseService<RoleAssignDomain> {
     /**
-     * 通过登录的用户获取角色对象信息
+     * 通过用户获取角色对象信息
      * @author : zhuxueke
      * @since : 2018/3/14 16:27
      */

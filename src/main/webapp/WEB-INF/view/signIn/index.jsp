@@ -71,7 +71,7 @@
 
         /* 退出 */
         function logout(){
-            $.get("${basePath}tuichu",null,function(data){
+            $.get("${basePath}logout",null,function(data){
                 var obj = eval(data);
                 if(obj.ok != null){
                     window.location.href = "${basePath}logout";

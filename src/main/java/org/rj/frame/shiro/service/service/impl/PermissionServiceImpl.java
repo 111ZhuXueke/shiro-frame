@@ -27,6 +27,19 @@ public class PermissionServiceImpl extends BaseServiceImpl<PermissionDomain> imp
         for (Long item:longSet) {
             PermissionQuery permissionQuery = new PermissionQuery();
             permissionQuery.setId(item);
+            permissionQuery.setAvailable(0);
+            PermissionDomain domain = super.getOne(permissionQuery);
+            if (domain != null) sets.add(domain);
+        }
+        return sets;
+    }
+
+    @Override
+    public Set<PermissionDomain> getPermissions(Set<Long> longSet) {
+        Set<PermissionDomain> sets = new HashSet<>();
+        for (Long item:longSet) {
+            PermissionQuery permissionQuery = new PermissionQuery();
+            permissionQuery.setId(item);
             PermissionDomain domain = super.getOne(permissionQuery);
             if (domain != null) sets.add(domain);
         }

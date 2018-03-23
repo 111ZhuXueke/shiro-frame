@@ -10,29 +10,39 @@
 </head>
 <body>
 
-    <form action="${basePath}permission/add" method="post">
-        <p>权限名称：<input type="text" name="name" /></p>
-        <p>状态：可用<input type="radio" name="available" value="0" checked="checked">不可用<input type="radio" name="available" value="1"><p>
+
+        <p>权限名称：<input type="text" name="name" id="name" /></p>
+        <p>状态：可用<input type="radio" name="available" id="available" value="0" checked="checked">不可用<input type="radio" name="available" value="1"><p>
         <p>资源路径：<input type="text" name="url" id="url"/><p>
-        <p>权限字符串：<input type="text" name="permission" /><p>
-        <p>模块ID：<select name="type">
+        <p>权限字符串：<input type="text" name="permission" id="permission"/><p>
+        <p>模块ID：<select name="moduleId" id="moduleId">
                     <c:forEach items="${rj_default:modules()}" var="m">
-                        <option name="${m.id}">${m.name}</option>
+                        <option value="${m.id}">${m.name}</option>
                     </c:forEach>
                 </select><p>
         <p>当前权限类型：<select name="type" id="type">
-                            <option name="0">请选择权限类型</option>
+                            <option value="0">请选择权限类型</option>
                             <c:forEach items="${rj_default:enums()}" var="type">
                                 <option name="${type}">${type}</option>
                             </c:forEach>
                         </select><p>
         <p>父资源权限类型：<select name="parentId" id="parentId"></select><p>
-        <input type="submit" value="提交" />
-    </form>
+        <input type="button" id="sub" value="提交" />
+
     <button class="btn close">关闭</button>
     <script src="${basePath}/static/jquery-2.1.4.js"></script>
     <script>
         $(function(){
+            $("#sub").click(function(){
+                $.post("${basePath}permission/add",{"name":$("#name").val(),"available":$("#available").val(),"url":$("#url").val(),"permission":$("#permission").val()
+                ,"moduleId":$("#moduleId").val(),"type":$("#type").val(),"parentId":$("#parentId").val()},function(data){
+                    var obj = eval(data);
+                    alert(obj.message);
+                    if(obj.ok!=null){
+                        $(".close").click();
+                    }
+                },'json');
+            });
             $("#type").change(function(){
                 if($(this).val() != 'click'){
                     $.post("${basePath}permission/getParentType",{"lable":$(this).val()},function(data){
@@ -52,6 +62,7 @@
             $(".close").click(function(){
                 parent.$(".childWin").hide();
             });
+
         })
     </script>
 </body>

@@ -2,7 +2,7 @@
 <%@include file="/WEB-INF/view/include/taglib.jsp"%>
 <html>
 <head>
-    <title>权限管理列表</title>
+    <title>权限分配</title>
     <link href="${basePath}/static/public.css" rel="stylesheet" type="text/css">
     <style>
         body{
@@ -40,18 +40,15 @@
 
     <form>
         <fieldset>
-            <input type="text" id="name"/> 名称<br/>
+            <input type="text" id="name"/> 用户名称<br/>
             <input type="button" id="sub" class="" value="搜索"/>
             <div class="toolBar"></div>
         </fieldset>
         <table>
             <thead>
                 <th>编号</th>
-                <th>名称</th>
-                <th>类型</th>
-                <th>路径</th>
-                <th>权限字符串</th>
-                <th>所属模块</th>
+                <th>管理员姓名</th>
+                <th>用户名</th>
                 <th>更新时间</th>
             </thead>
             <tbody class="tbody">
@@ -75,7 +72,7 @@
         });
         /* ajax 获取数据 */
         function getResult(parms){
-            $.post("${basePath}permission/index?name=" + parms,{},function (data){
+            $.post("${basePath}permission/distribution?name=" + parms,{},function (data){
                 $(".tbody").html("");
                 var obj = eval(data);
                 var listText = $(".tbody").html();
@@ -83,11 +80,8 @@
                     listText = listText + "<tr class='premarykey'>";
                     listText = listText + "<td><input type='button' onclick='setPermaryKey(this)' ></td>";
                     listText = listText + "<td>"+obj[i].id+"</td>";
-                    listText = listText + "<td>"+obj[i].name+"</td>";
-                    listText = listText + "<td>"+obj[i].type+"</td>";
-                    listText = listText + "<td>"+obj[i].url+"</td>";
-                    listText = listText + "<td>"+obj[i].permission+"</td>";
-                    listText = listText + "<td>"+obj[i].moduleId+"</td>";
+                    listText = listText + "<td>"+obj[i].realName+"</td>";
+                    listText = listText + "<td>"+obj[i].userName+"</td>";
                     listText = listText + "<td>"+obj[i].updateTime+"</td>";
                     listText = listText + "</tr>";
                 }
@@ -98,23 +92,20 @@
         /* 设置功能按钮 */
         function setToolBar(){
             var toolText = $(".toolBar").html();
-            toolText = toolText + '<shiro:hasPermission name="system:permissions:add"><input type="button" onclick="add()" class="btn" value="新增权限"/></shiro:hasPermission>';
-            toolText = toolText + '<shiro:hasPermission name="system:permissions:update"><input type="button" onclick="update()" class="btn" value="修改权限"/></shiro:hasPermission>';
-            toolText = toolText + '<shiro:hasPermission name="system:permissions:delete"><input type="button" class="btn" value="删除权限"/></shiro:hasPermission>';
+            toolText = toolText + '<shiro:hasPermission name="system:permissions:disPermission"><input type="button" onclick="distribution()" class="btn" value="分配权限"/></shiro:hasPermission>';
             $(".toolBar").html(toolText);
         }
 
-        /* 新增权限 */
-        function add(){
-            $(".childWin").show();
-            $(".childWin iframe").attr("src","${basePath}permission/add?id="+"");
-            $(".childWin iframe").load();
-        }
-        /* 修改权限 */
-        function update(){
-            $(".childWin").show();
-            $(".childWin iframe").attr("src","${basePath}permission/update?id="+permaryKey);
-            $(".childWin iframe").load();
+        /* 分配权限 */
+        function distribution(){
+            if(permaryKey != '' || permaryKey != null){
+                $(".childWin").show();
+                $(".childWin iframe").attr("src","${basePath}permission/disPermission?userId="+permaryKey);
+                $(".childWin iframe").load();
+            }else {
+                alert("请选择编号!");
+            }
+
         }
 
         function setPermaryKey(thi){

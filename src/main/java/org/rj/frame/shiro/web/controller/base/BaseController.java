@@ -45,11 +45,7 @@ public class BaseController implements java.io.Serializable{
         Map<String, Object> map = new HashMap<>();
         map.put("error", 300);
         map.put("message", message);
-        return toJSONFormatString(map);
-    }
-
-    protected String toJSONFormatString(Object object) {
-        return JSON.toJSONString(object, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteDateUseDateFormat);
+        return JSONObject.toJSONString(map);
     }
 
     /**

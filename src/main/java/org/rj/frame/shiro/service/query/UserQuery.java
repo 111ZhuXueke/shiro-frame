@@ -12,6 +12,7 @@ import tk.mybatis.mapper.entity.Example;
 public class UserQuery extends Query {
     private String userName;
     private String password;
+    private Long id;
 
     public String getUserName() {
         return userName;
@@ -39,6 +40,17 @@ public class UserQuery extends Query {
         if(valid(password)){
             criteria.andEqualTo("password",password);
         }
+        if (valid(id)){
+            criteria.andEqualTo("id",id);
+        }
         return queryCriteria;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

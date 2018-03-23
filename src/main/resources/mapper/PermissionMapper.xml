@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.rj.frame.shiro.service.mapper.IPermissionMapper">
-    <select id="max" resultType="java.lang.Long">
+    <select id="getMaxId" resultType="java.lang.Long">
         SELECT max(p.id) FROM permission p
     </select>
 </mapper>
