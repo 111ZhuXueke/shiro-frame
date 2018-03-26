@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50535
 File Encoding         : 65001
 
-Date: 2018-03-16 17:31:35
+Date: 2018-03-26 08:23:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,12 +53,17 @@ CREATE TABLE `permission` (
   `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`),
   KEY `IND_security_permission_module_id` (`module_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统权限信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='系统权限信息表';
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('1', '权限管理', 'click', null, null, 'system:permissions:manager', '0', '1', '2018-03-16 13:09:57', '2018-03-16 13:09:54');
+INSERT INTO `permission` VALUES ('1', '权限管理', 'click', '#', null, 'system:permissions:manager', '0', '1', '2018-03-16 13:09:57', '2018-03-16 13:09:54');
+INSERT INTO `permission` VALUES ('2', '权限列表', 'menu', '/permission/index', '1', 'system:permissions:index', '0', '1', '2018-03-19 14:12:53', '2018-03-19 14:12:57');
+INSERT INTO `permission` VALUES ('3', '增加权限', 'button', '/permission/add', '2', 'system:permissions:add', '0', '1', '2018-03-20 14:55:47', '2018-03-20 14:55:49');
+INSERT INTO `permission` VALUES ('4', '修改权限', 'button', '/permission/update', '2', 'system:permissions:update', '0', '1', '2018-03-20 15:46:45', '2018-03-20 15:46:48');
+INSERT INTO `permission` VALUES ('5', '分配权限管理', 'menu', '/permission/distribution', '1', 'system:permissions:distribution', '0', '1', '2018-03-23 11:25:41', '2018-03-23 11:25:41');
+INSERT INTO `permission` VALUES ('6', '分配权限', 'button', '/permission/disPermission', '5', 'system:permissions:disPermission', '0', '1', '2018-03-23 15:51:18', '2018-03-23 15:51:18');
 
 -- ----------------------------
 -- Table structure for permission_assign
@@ -70,12 +75,17 @@ CREATE TABLE `permission_assign` (
   `role_id` tinyint(36) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统权限 角色 关联授权表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='系统权限 角色 关联授权表';
 
 -- ----------------------------
 -- Records of permission_assign
 -- ----------------------------
 INSERT INTO `permission_assign` VALUES ('1', '1', '1', '2018-03-16 13:10:12');
+INSERT INTO `permission_assign` VALUES ('2', '2', '1', '2018-03-19 16:59:43');
+INSERT INTO `permission_assign` VALUES ('3', '3', '1', '2018-03-20 15:46:07');
+INSERT INTO `permission_assign` VALUES ('4', '4', '1', '2018-03-20 16:14:54');
+INSERT INTO `permission_assign` VALUES ('5', '5', '1', '2018-03-23 13:37:33');
+INSERT INTO `permission_assign` VALUES ('6', '6', '1', '2018-03-23 15:51:18');
 
 -- ----------------------------
 -- Table structure for role
