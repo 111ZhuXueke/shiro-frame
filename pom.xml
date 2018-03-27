@@ -138,7 +138,6 @@
           <version>${jackson.version}</version>
       </dependency>
 
-      <!-- druid 所需 -->
       <dependency>
           <groupId>com.alibaba</groupId>
           <artifactId>druid</artifactId>
@@ -164,7 +163,6 @@
           <version>1.2.3</version>
       </dependency>
 
-      <!-- druid end -->
 
       <!-- commons系列组件 -->
       <dependency>

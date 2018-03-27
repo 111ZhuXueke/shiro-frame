@@ -44,6 +44,10 @@
         <property name="minEvictableIdleTimeMillis" value="${loan.pool.minEvictableIdleTimeMillis}"/>
         <!-- 默认值是 -1 ，每隔一段多少毫秒跑一次回收空闲线程的线程(空闲链接回收器) -->
         <property name="timeBetweenEvictionRunsMillis" value="${loan.pool.timeBetweenEvictionRunsMillis}"/>
+        <!-- 指定共有key -->
+
+        <property name="connectionProperties" value="config.decrypt=true;config.decrypt.key=${loan.jdbc.publicKey}" />
+        <property name="filters" value="config"/>
     </bean>
 
     <bean id="loanSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
