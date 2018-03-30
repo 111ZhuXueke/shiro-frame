@@ -19,8 +19,9 @@
         }
     </style>
 </head>
-<body on>
+<body>
     <form>
+        <input type="hidden" name="ssss"  value="sss"/>
         <input type="text" id="userName" name="userName"><br/>
         <input type="text" id="passwprd" name="password"><br/>
         <p class="msg"></p>
